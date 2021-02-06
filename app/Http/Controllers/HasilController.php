@@ -136,6 +136,7 @@ class HasilController extends Controller
         $np = implode(" ",$nama_penyakit);
         
         $coba = DB::table('coba')->get();
+        $coba2 = DB::table('hitung')->get();
 
         foreach($coba as $nama_coba){
             $pakar[]=$nama_coba->b_pakar;
@@ -145,6 +146,15 @@ class HasilController extends Controller
                 }
             
             }
+        foreach($coba2 as $nama_coba2){
+                $pakar2[]=$nama_coba2->nilai;
+                $metode[]=$nama_coba2->metode;
+                $nc=DB::table('penyakit')->where('kd_penyakit',$nama_coba2->kd_penyakit)->get();
+                    foreach($nc as $nccs){
+                    $nama_diagnosis2[]=$nccs->nama_penyakit;
+                    }
+                
+        }
         
         $bayes =DB::table('hitung')->where('metode','bayes')->orderBy('nilai','desc')->first();
         $nama_bayes1=DB::table('penyakit')->where('kd_penyakit',$bayes->kd_penyakit)->get();
@@ -156,11 +166,41 @@ class HasilController extends Controller
         $nama_cf1=DB::table('penyakit')->where('kd_penyakit',$cf->kd_penyakit)->get();
         foreach($nama_cf1 as $ncf){
             $nama_cf=$ncf->nama_penyakit;
-            }
+            } 
         
-        $data = array_merge(['nama' => $nama_diagnosis],['bobot' => $pakar]);
+          
+            $data2 = array_merge(['nama' => $nama_diagnosis2],['nilai' => $pakar2]);
+            $data = array_merge(['nama' => $nama_diagnosis],['bobot' => $pakar]);
+    
+        $index = 0;
+
+        $diagnosises = collect([]);
+
+        foreach($nama_diagnosis as $diagnosis) 
+        {
+            $diagnosises->push([
+                'nama_diagnosis'=>$diagnosis,
+                'bobot'=>$pakar[$index]
+            ]);
+
+            $index++;
+        }
+        
+        $index2 = 0;
+        $penyakits = collect([]);
+        foreach($nama_diagnosis2 as $panyakits) 
+        {
+            $penyakits->push([
+                'nama_penyakit'=>$panyakits,
+                'nilai'=>$pakar2[$index2],
+                'metode'=>$metode[$index2]
+            ]);
+
+            $index2++;
+        }
+
        
-        
+
         // mengirim data ke view index
         return view('hasil.index',
             [
@@ -172,7 +212,9 @@ class HasilController extends Controller
                 'nama_cf' => $nama_cf,
                 'nama_penyakit'=>$nama_penyakit,
                 'nama_diagnosis'=>$nama_diagnosis,
-                'data'=>$data
+                'data'=>$data,
+                'diagnosises'=> $diagnosises,
+                'penyakits' => $penyakits,
             ]
         );
         //

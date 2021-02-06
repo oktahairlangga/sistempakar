@@ -1,40 +1,71 @@
-<html>
+@extends('layouts.app')
 <head>
 	<title>penyakit</title>
 </head>
-<body>
- 
-	
-	<h3>Data Penyakit</h3>
- 
-	<a href="/penyakit/tambah"> + Tambah Penyakit Baru</a>
-	
-	<br/>
-	<br/>
- 
-	<table border="1">
-		<tr>
-			<th>kode</th>
-			<th>nama penyakit</th>
-			<th>bobot</th>
-            <th>aksi</th>
-		</tr>
-		@foreach($penyakit as $g)
-		<tr>
-			<td>{{ $g->kd_penyakit }}</td>
-			<td>{{ $g->nama_penyakit }}</td>
-			<td>{{ $g->bobot}}</td>
-			<td>
-				<a href="/penyakit/edit/{{ $g->kd_penyakit }}">Edit</a>
-				|
-				<a href="/penyakit/hapus/{{ $g->kd_penyakit}}">Hapus</a>
-			</td>
-		</tr>
-		@endforeach
-	</table>
- 
- 
-</body>
-</html>
+@section('intro-header')
+@endsection
 
+@section('content')
+
+	<section>
+		<div class="d-flex">
+			<h3>Data Penyakit</h3>
+			<a href="/penyakit/tambah" class="btn btn-outline-primary ml-4"> + Tambah Penyakit Baru</a>
+		</div>
+		
+		<table class="table table-striped mt-4">
+			<tr>
+				<th>Kode</th>
+				<th>Nama Penyakit</th>
+				<th>Bobot</th>
+				<th>Aksi</th>
+			</tr>
+			<tr v-for="penyakit in data_penyakit">
+				<td>@{{ penyakit.kd_penyakit }}</td>
+				<td>@{{ penyakit.nama_penyakit }}</td>
+				<td>@{{ penyakit.bobot}}</td>
+				<td style="width: 150px">
+					<a :href="'/penyakit/edit/' + penyakit.kd_penyakit" class="fw-bold text-success">Edit</a>
+					<a :href="'/penyakit/hapus/' + penyakit.kd_penyakit" class="ml-3 fw-bold text-success">Hapus</a>
+				</td>
+				
+			</tr>
+		</table>
+	</section>
+ 
+@endsection 
+@section('js') 
+
+	<script>
+		'use strict'
+		var vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					data_penyakit: []
+				}
+			},
+			created() {
+				this.getPenyakit()
+			},
+			methods: {
+				getPenyakit() {
+					var url = "{{ route('api.penyakit') }}"
+					axios({
+						method: 'GET',
+						url
+					})
+					.then((res) => {
+						let data = res.data.data 
+						this.data_penyakit = data
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+				}
+			}
+		})
+	</script>
+
+@endsection
 

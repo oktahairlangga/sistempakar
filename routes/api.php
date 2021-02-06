@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+// Route::get('/gejala',
+//     'API\GejalaController@index',
+//     ['as' => 'api.gejala']
+
+// );
+
+Route::get('/gejala', 'API\GejalaController@index')->name('api.gejala');
+Route::get('/penyakit', 'API\PenyakitController@index')->name('api.penyakit');

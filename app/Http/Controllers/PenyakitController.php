@@ -62,7 +62,7 @@ class PenyakitController extends Controller
        	// mengambil data penyakit berdasarkan id yang dipilih
 	$penyakit = DB::table('penyakit')->where('kd_penyakit',$kd_penyakit)->get();
 	// passing data penyakit yang didapat ke view edit.blade.php
-	return view('edit',['penyakit' => $penyakit]); //
+	return view('penyakit.edit',['penyakit' => $penyakit]); //
     }
 
 

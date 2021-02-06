@@ -1,66 +1,108 @@
-<html>
+@extends('layouts.app')
 <head>
-	<title>Tanda Penyakit</title>
+	<title> Hasil Diagnosis</title>
 </head>
-<body>
- 
-Nilai Diagnosis Keseluruhan	
-<table border="1">
-		<tr>
-			<th>nama gejala</th>
-			<th>bobot</th>
-            
-		</tr>
-		
-		
-		
-		@foreach($nama_diagnosis as $ng)
-				@foreach($coba as $aboc)	
-				<tr>
-				
-					<td>{{ $ng }}</td>
-					<td>
-					{{$aboc->b_pakar}}
-					
-					</td>
-					
-					
-				</tr>
-				@endforeach
-		@endforeach		
-		
-</table>
-</br>
-Perkiraan Penyakit : 
 
-@foreach($nama_penyakit as $nama)
-{{ $nama }} 
-@endforeach
+@section('intro-header')
+@endsection
 
-</br>
-</br>
-Hasil Perhitungan Tiap Metode 
-<table border="1">
-		<tr>
-			<th>kd_penyakit</th>
-			<th>nilai</th>
-			<th>metode</th>
-            
-		</tr>
-		@foreach($hitung as $h)
-		<tr>
-			<td>{{ $h->kd_penyakit }}</td>
-			<td>{{ $h->nilai }}</td>
-			<td>{{ $h->metode}}</td>
-			
-		</tr>
-		@endforeach
-</table>
-</br>
-perkiraan penyakit menurut teorema bayes : {{$nama_bayes}}
-{{$bayes->nilai}}
-</br>
-perkiraan penyakit menurut certainly factor : {{$nama_cf}}
-{{$cf->nilai}}
-</body>
-</html>
+@section('content')
+	<section>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="box">
+					<h5>
+						Nilai Diagnosis Keseluruhan	
+					</h5>
+					<table class="table mt-4">
+							<tr>
+								<th>Nama gejala</th>
+								<th>Bobot</th>
+								
+							</tr>
+							
+							
+							
+							@foreach($diagnosises as $diagnosis)
+									<tr>
+									
+										<td>{{ $diagnosis['nama_diagnosis'] }}</td>
+										<td>
+											{{ $diagnosis['bobot'] }}
+										</td>
+										
+										
+									</tr>
+							@endforeach		
+							
+					</table>
+
+					<div class="separator"></div>
+
+					<h6 class="mt-3">
+						Perkiraan Penyakit : 
+					</h6>
+
+					@foreach($nama_penyakit as $nama)
+						<span class="tag">
+							{{ $nama }} 
+						</span>
+					@endforeach
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="box">
+					<h6>
+						Hasil Perhitungan Tiap Metode 
+					</h6>
+					<table class="table mt-4">
+							<tr>
+								<th>Kode Penyakit</th>
+								<th>Nilai</th>
+								<th>Metode</th>
+								
+							</tr>
+							@foreach($penyakits as $pepepe)
+									<tr>
+									
+										<td>{{ $pepepe['nama_penyakit'] }}</td>
+										<td>
+											{{ $pepepe['nilai'] }}
+										</td>
+										<td>
+											{{ $pepepe['metode'] }}
+										</td>
+										
+									</tr>
+							@endforeach		
+
+
+					</table>
+
+					<div class="separator"></div>
+
+					<div>
+						Perkiraan penyakit menurut teorema bayes : 
+						<span class="tag ml-3">
+							{{$nama_bayes}}
+						</span>
+						<span class="text-success fw-bold ml-3">
+							{{$bayes->nilai}}
+						</span>
+					</div>
+
+					<div class="mt-3">
+						Perkiraan penyakit menurut certainly factor : 
+						<span class="tag ml-3">
+							{{$nama_cf}}
+						</span>
+						<span class="text-success fw-bold ml-3">
+							{{$cf->nilai}}
+						</span>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+@endsection

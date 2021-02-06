@@ -30,10 +30,18 @@ Route::get('/relasi','RelasiController@index');
 Route::get('/tanda','TandaController@index');
 
 Route::get('/hasil','HasilController@index');
-
 Route::get('/diagnosis','DiagnosisController@index');
 Route::post('/diagnosis/store','DiagnosisController@store');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', 'PageController@index');
+ 
+// Route::get('/gejala', 'PageController@gejala');
+// Route::get('/penyakit', 'PageController@penyakit');
+//Route::get('/konsultasi', 'PageController@konsultasi');
+// Route::get('/hasil', 'PageController@hasil');
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+

@@ -19,7 +19,7 @@ class GejalaController extends Controller
     	$gejala = DB::table('gejala')->get();
  
     	// mengirim data gejala ke view index
-    	return view('index',['gejala' => $gejala]); //
+    	return view('gejala.index',['gejala' => $gejala]); //
     }
 
     /**
@@ -32,7 +32,7 @@ class GejalaController extends Controller
     public function tambah()
     {
         // memanggil view tambah
-        return view('tambah');
+        return view('gejala.tambah');
     } 
     public function create()
     {
@@ -80,7 +80,7 @@ class GejalaController extends Controller
        	// mengambil data gejala berdasarkan id yang dipilih
 	$gejala = DB::table('gejala')->where('kd_gejala',$kd_gejala)->get();
 	// passing data gejala yang didapat ke view edit.blade.php
-	return view('edit',['gejala' => $gejala]); //
+	return view('gejala.edit',['gejala' => $gejala]); //
     }
 
     /**
